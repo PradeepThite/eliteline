@@ -1,6 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
-
+apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 /**
@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.eliteline"
+    namespace "com.elite.line"
     defaultConfig {
-        applicationId "com.eliteline"
+        applicationId "com.elite.line"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -149,6 +149,8 @@ android {
 }
 
 dependencies {
+    implementation project(':lottie-react-native')
+    
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.2.3')
 

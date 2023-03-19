@@ -47,6 +47,9 @@
 
  * Developer error
     https://stackoverflow.com/questions/54417232/react-native-google-signin-gives-developer-error
+    
+ * Google sign in Default app created
+    https://stackoverflow.com/questions/40563140/error-no-firebase-app-default-has-been-created-call-firebase-app-initiali
 
 
 

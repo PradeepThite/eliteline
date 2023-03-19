@@ -1,4 +1,4 @@
-package com.eliteline;
+package com.elite.line;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

@@ -41,12 +41,31 @@ const loginCB = ({status, message}: any) => {
 const LoginForm = [
   {label: 'Email', key: 'email'},
   {label: 'Password', key: 'password', extraOptions: {secureTextEntry: true}},
+  {
+    label: 'Confirm password',
+    key: 'confirmPassword',
+    extraOptions: {secureTextEntry: true},
+  },
 ];
 
-const LoginComponent = ({navigation}: any) => {
+const RegisterComponent = ({navigation}: any) => {
   const [state, dispatchState] = useReducer(reducer, initialState);
   const [isValid, setIsValid] = useState<boolean>(true);
-  const {login, googleLogin, forgetPassword, fbLogin} = useContext(AuthContext);
+  const {googleLogin, register} = useContext(AuthContext);
+
+  const registerAPI = async () => {
+    if (state.password !== state.confirmPassword) {
+      return showToast('Please enter a correct password and confirm password');
+    }
+    // showLoading({title: 'Creating user...'});
+    let response = await register(state.email, state.password);
+    console.log(response);
+    // hideLoading();
+    if (response.status) {
+      return showToast('Register success..');
+    }
+    showToast(response.data.split(']').pop());
+  };
 
   return (
     <ScrollView>
@@ -59,17 +78,11 @@ const LoginComponent = ({navigation}: any) => {
             />
           ))}
         </View>
-        <Button
-          mode="outlined"
-          disabled={isValid}
-          onPress={() => {
-            login(state.email, state.password, loginCB);
-          }}>
-          Sign In
+
+        <Button disabled={isValid} mode="outlined" onPress={registerAPI}>
+          Register
         </Button>
-
         <Text style={{textAlign: 'center'}}>OR</Text>
-
         <View
           style={{
             display: 'flex',
@@ -87,8 +100,8 @@ const LoginComponent = ({navigation}: any) => {
           <Button
             icon="email"
             mode="outlined"
-            onPress={() => navigation.navigate('Register')}>
-            Sign Up with Email
+            onPress={() => navigation.navigate('Login')}>
+            Sign in with Email
           </Button>
         </View>
       </View>
@@ -96,4 +109,4 @@ const LoginComponent = ({navigation}: any) => {
   );
 };
 
-export const Login = LoginComponent;
+export const Register = RegisterComponent;

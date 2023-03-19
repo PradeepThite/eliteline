@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator();
 import { Login } from '../Pages/Login/Login';
 import { CounterComponent } from 'component/Counter/Counter';
+import { Register } from 'Pages/Register/Register';
 
 
 const AuthStack = () => {
@@ -16,7 +17,7 @@ const AuthStack = () => {
       />
       <Stack.Screen
         name="Register"
-        component={CounterComponent}
+        component={Register}
         options={{header: () => null}}
       />
     </Stack.Navigator>

@@ -85,8 +85,9 @@ export const AuthProvider = ({children}) => {
               googleCredential,
             );
             // console.log(response);
-            console.log(auth().currentUser);
-            validateUserOnServerAndLogIn(auth().currentUser, loginCB);
+            const userInfo = auth().currentUser; 
+            console.log(loginCB);
+            validateUserOnServerAndLogIn(userInfo, loginCB);
             // setToStorage('user',auth().currentUser);
             // Use it only when user Sign's up,
             // so create different social signup function

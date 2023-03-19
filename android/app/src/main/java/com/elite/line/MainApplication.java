@@ -1,4 +1,4 @@
-package com.eliteline;
+package com.elite.line;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
