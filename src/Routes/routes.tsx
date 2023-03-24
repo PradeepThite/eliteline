@@ -28,10 +28,9 @@ const RoutesComponent = ({}) => {
       try {
         let userFromStaorage: any = await getFromStorage('user');
         userFromStaorage = JSON.parse(userFromStaorage);
-        // console.log('userFromStaorage' + JSON.stringify(userFromStaorage))
         if (userFromStaorage && Object.keys(userFromStaorage).length) {
-          setUser(userFromStaorage);
-          jwtInterceptor();
+          setUser(userFromStaorage); // Set to Provider
+          jwtInterceptor(userFromStaorage);
           updateNotificationToken(userFromStaorage);
         }
       } catch (e) {

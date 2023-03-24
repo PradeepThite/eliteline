@@ -21,8 +21,10 @@ const reducer = (state: any, action: Ilogin) => {
     s.email = value;
   } else if (type === 'password') {
     s.password = value;
+  } else if (type === 'confirmPassword') {
+    s.confirmPassword = value;
   }
-  if (s.email && s.password) {
+  if (s.email && s.password === s.confirmPassword) {
     cb(false);
   } else {
     cb(true);

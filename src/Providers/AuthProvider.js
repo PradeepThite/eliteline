@@ -26,17 +26,17 @@ export const AuthProvider = ({children}) => {
     });
     var end = Date.now();
     console.log(`Get user from server time ${end - start} ms`);
-
+    
+    console.log('--- Login response',loginResponse);
     if (loginResponse.status) {
       response.data = loginResponse.data;
+      await setToStorage('user', loginResponse.data);
       setUser(loginResponse.data);
-      jwtInterceptor();
-      setToStorage('user', loginResponse.data);
+      jwtInterceptor(loginResponse.data);
       updateNotificationToken(loginResponse.data);
     } else {
       response.status = false;
       response.message = 'Something went wrong !';
-      console.log(loginResponse);
       console.log('Something went wrong');
     }
     loginCB && loginCB(response);
