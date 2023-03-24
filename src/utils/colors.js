@@ -73,3 +73,8 @@ export const $domagaFaientGrey = "#56505A";
 export const $domagaWhiteGrey = "#9C9AA8";
 export const $domagaColor = "#3F24AC";
 export const $domagaDarkGrey = "#9C5F64";
+
+export const $pallet_1 = "#FF74B1";
+export const $pallet_2 = "#FFA1CF";
+export const $pallet_3 = "#FFD6EC";
+export const $pallet_4 = "#A7FFE4";

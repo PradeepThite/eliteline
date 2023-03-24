@@ -1,13 +1,17 @@
 import React, {useContext, useReducer, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {Button, Text} from 'react-native-paper';
+import {AuthContext} from 'Providers/AuthProvider';
 
 const HomeComponent = ({navigation}: any) => {
+  const {logout, user} = useContext(AuthContext);
+
   return (
     <ScrollView>
-      <Button mode="outlined" onPress={() => false}>
-        Home
-      </Button>
+      <Text >
+        Home 
+      </Text>
+      
     </ScrollView>
   );
 };
