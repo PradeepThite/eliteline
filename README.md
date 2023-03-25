@@ -7,6 +7,9 @@
     react-native start --reset-cache
     react-native run-android
 
+    * Run app in external device issues
+        adb reverse tcp:4000 tcp:4000
+
 
 
 - To create new typescript react native project
@@ -94,3 +97,6 @@
 
 
   keytool -exportcert -v -alias my-key-alias -keystore my-upload-key.keystore
+
+
+  

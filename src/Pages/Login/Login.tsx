@@ -1,41 +1,51 @@
-import React, {useContext, useReducer, useState} from 'react';
+import React, {useContext, useEffect, useReducer, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import {AuthContext} from 'Providers/AuthProvider';
-import {showToast} from 'utils/CommonUtil';
+import {showToast, isValidEmail} from 'utils/CommonUtil';
 import {FormItem} from 'component/FormItem';
+import {SocialFooter} from 'component/Common/SocialFooter';
 
 const initialState = {
   isValid: false,
+  email: '',
+  password: '',
+  forgetemail: '',
 };
 
 interface Ilogin {
   type: string;
   value: string;
   cb?: Function;
+  rCb?: Function;
 }
 const reducer = (state: any, action: Ilogin) => {
-  const {type, value, cb = () => false} = action;
-  const s = state;
+  const {type, value, cb = () => false, rCb = () => false} = action;
+  let s = state;
   if (type === 'email') {
-    s.email = value;
+    s.email = isValidEmail(value) ? value : '';
   } else if (type === 'password') {
     s.password = value;
   }
-  if (s.email && s.password) {
-    cb(false);
-  } else {
-    cb(true);
+  switch (type) {
+    case 'forgetemail':
+      const isValidForgotEmail = isValidEmail(value);
+      s.forgetemail = isValidForgotEmail ? value : '';
+      console.log(isValidForgotEmail);
+      cb(isValidForgotEmail ? 'forgetemail' : '');
+      break;
+    case 'reset':
+      s = initialState;
+      cb('');
+      rCb();
+    default:
+      if (s.email && s.password) {
+        cb('login');
+      } else {
+        cb('');
+      }
   }
   return s;
-};
-
-const loginCB = ({status, message}: any) => {
-  if (status === 'success') {
-    showToast('Success');
-  } else {
-    showToast(message || 'Error');
-  }
 };
 
 const LoginForm = [
@@ -43,54 +53,102 @@ const LoginForm = [
   {label: 'Password', key: 'password', extraOptions: {secureTextEntry: true}},
 ];
 
+const forgetPasswordInputOptions = {
+  label: 'Email',
+  key: 'forgetemail',
+  extraOptions: {
+    style: {width: '100%', color: 'red'},
+  },
+};
+
 const LoginComponent = ({navigation}: any) => {
   const [state, dispatchState] = useReducer(reducer, initialState);
-  const [isValid, setIsValid] = useState<boolean>(true);
-  const {login, googleLogin, forgetPassword, fbLogin} = useContext(AuthContext);
+  const [validStatement, setValidStatement] = useState<string>('');
+  const {login, forgetPassword} = useContext(AuthContext);
+  const [showForgetModal, setShowForgetModal] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [formItems, setFormItems] = useState<any>(LoginForm);
+
+  const forgetPasswordAPI = async () => {
+    setIsLoading(true);
+    await forgetPassword(state.forgetemail);
+    setShowForgetModal(prev => !prev);
+    showToast('Verification email sent. Please check email');
+    setIsLoading(false);
+  };
+
+  const loginWithPassword = () => {
+    setIsLoading(true);
+    login(state.email, state.password, loginCB);
+  };
+
+  const loginCB = ({status, message}: any) => {
+    setIsLoading(false);
+
+    if (status === 'success') {
+      showToast('Success');
+    } else {
+      showToast(message || 'Error');
+    }
+  };
+
+  useEffect(() => {
+    const rCb = () => {
+      setFormItems(showForgetModal ? [forgetPasswordInputOptions] : LoginForm);
+    };
+    const op: any = {
+      type: 'reset',
+      value: initialState,
+      cb: setValidStatement,
+      rCb,
+    };
+    dispatchState(op);
+  }, [showForgetModal]);
 
   return (
     <ScrollView>
       <View style={{margin: 20}}>
         <View style={{marginBottom: 20}}>
-          {LoginForm.map((formItem: any, index: number) => (
-            <FormItem
-              key={index + 'login-form'}
-              options={{...formItem, dispatchState, setIsValid}}
-            />
+          <Text style={{textAlign: 'center', marginVertical: 15}}>
+            {showForgetModal ? 'Forget password email' : 'Login'}
+          </Text>
+
+          {formItems.map((formItem: any, index: number) => (
+            <View style={{marginVertical: 5}}>
+              <FormItem
+                key={index + 'login-form' + formItem.key}
+                options={{...formItem, dispatchState, cb: setValidStatement}}
+              />
+            </View>
           ))}
         </View>
         <Button
           mode="outlined"
-          disabled={isValid}
+          loading={isLoading}
+          disabled={!['login', 'forgetemail'].includes(validStatement)}
           onPress={() => {
-            login(state.email, state.password, loginCB);
+            showForgetModal ? forgetPasswordAPI() : loginWithPassword();
           }}>
-          Sign In
+          {showForgetModal ? 'Reset password' : 'Sign In'}
         </Button>
 
-        <Text style={{textAlign: 'center'}}>OR</Text>
+        <Button
+          mode="text"
+          onPress={() => {
+            setShowForgetModal(preVal => !preVal);
+          }}
+          style={{alignItems: 'flex-end', marginVertical: 5}}>
+          {showForgetModal ? 'Sign in with password' : 'Forgot password'}
+        </Button>
 
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-          }}>
-          <Button
-            icon="google"
-            mode="outlined"
-            onPress={() => {
-              googleLogin({loginCB});
-            }}>
-            Google
-          </Button>
-          <Button
-            icon="email"
-            mode="outlined"
-            onPress={() => navigation.navigate('Register')}>
-            Sign Up with Email
-          </Button>
-        </View>
+        <Text style={{textAlign: 'center', marginVertical: 15}}>OR</Text>
+        {/* Social sign in  */}
+        <SocialFooter
+          navigation={navigation}
+          loginCB={loginCB}
+          redirectOptions={{page: 'Register', text: 'Sign Up with Email'}}
+        />
       </View>
     </ScrollView>
   );
