@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import {View} from 'react-native';
 import {Button} from 'react-native-paper';
 import {AuthContext} from 'Providers/AuthProvider';
+import {ProText} from './Text/ProText';
 
 export const SocialFooter = ({
   navigation,
@@ -23,13 +24,13 @@ export const SocialFooter = ({
         onPress={() => {
           googleLogin({loginCB});
         }}>
-        Google
+        <ProText>Google</ProText>
       </Button>
       <Button
         icon="email"
         mode="outlined"
         onPress={() => navigation.navigate(redirectOptions.page)}>
-        {redirectOptions.text}
+        <ProText>{redirectOptions.text}</ProText>
       </Button>
     </View>
   );

@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  HeaderStyleInterpolators,
+  TransitionSpecs,
+} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Home} from 'Pages/Home/Home';
@@ -8,6 +12,49 @@ import {Profile} from 'Pages/Profile/Profile';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const MyTransition = {
+  gestureDirection: 'horizontal',
+  transitionSpec: {
+    open: TransitionSpecs.TransitionIOSSpec,
+    close: TransitionSpecs.TransitionIOSSpec,
+  },
+  headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+  cardStyleInterpolator: ({current, next, layouts}: any) => {
+    return {
+      cardStyle: {
+        transform: [
+          {
+            translateX: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [layouts.screen.width, 0],
+            }),
+          },
+          {
+            rotate: current.progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [1, 0],
+            }),
+          },
+          {
+            scale: next
+              ? next.progress.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [1, 0.9],
+                })
+              : 1,
+          },
+        ],
+      },
+      overlayStyle: {
+        opacity: current.progress.interpolate({
+          inputRange: [0, 1],
+          outputRange: [0, 0.5],
+        }),
+      },
+    };
+  },
+};
 
 const AppStack = () => {
   console.log('------------- APP Stack Rendered -----------------');
@@ -25,6 +72,7 @@ const AppStack = () => {
           tabBarIcon: ({color}) => (
             <AntDesign name="home" size={24} color={color} />
           ),
+          ...MyTransition,
         }}
       />
       <Tab.Screen
@@ -36,6 +84,8 @@ const AppStack = () => {
           tabBarIcon: ({color}) => (
             <AntDesign name="search1" size={24} color={color} />
           ),
+          ...MyTransition,
+
         }}
       />
       <Tab.Screen

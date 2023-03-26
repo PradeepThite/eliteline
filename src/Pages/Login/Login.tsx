@@ -5,6 +5,8 @@ import {AuthContext} from 'Providers/AuthProvider';
 import {showToast, isValidEmail} from 'utils/CommonUtil';
 import {FormItem} from 'component/FormItem';
 import {SocialFooter} from 'component/Common/SocialFooter';
+import {ProText} from 'component/Common/Text/ProText';
+import {$brand03, $font_heading} from 'utils/globalStyles';
 
 const initialState = {
   isValid: false,
@@ -49,8 +51,12 @@ const reducer = (state: any, action: Ilogin) => {
 };
 
 const LoginForm = [
-  {label: 'Email', key: 'email'},
-  {label: 'Password', key: 'password', extraOptions: {secureTextEntry: true}},
+  {label: <ProText>Email</ProText>, key: 'email'},
+  {
+    label: <ProText>Password</ProText>,
+    key: 'password',
+    extraOptions: {secureTextEntry: true},
+  },
 ];
 
 const forgetPasswordInputOptions = {
@@ -110,14 +116,20 @@ const LoginComponent = ({navigation}: any) => {
     <ScrollView>
       <View style={{margin: 20}}>
         <View style={{marginBottom: 20}}>
-          <Text style={{textAlign: 'center', marginVertical: 15}}>
+          <ProText
+            style={{
+              textAlign: 'center',
+              marginVertical: 15,
+              fontSize: $font_heading,
+            }}>
             {showForgetModal ? 'Forget password email' : 'Login'}
-          </Text>
+          </ProText>
 
           {formItems.map((formItem: any, index: number) => (
-            <View style={{marginVertical: 5}}>
+            <View
+              style={{marginVertical: 5}}
+              key={index + 'login-form' + formItem.key}>
               <FormItem
-                key={index + 'login-form' + formItem.key}
                 options={{...formItem, dispatchState, cb: setValidStatement}}
               />
             </View>
@@ -130,7 +142,7 @@ const LoginComponent = ({navigation}: any) => {
           onPress={() => {
             showForgetModal ? forgetPasswordAPI() : loginWithPassword();
           }}>
-          {showForgetModal ? 'Reset password' : 'Sign In'}
+          <ProText>{showForgetModal ? 'Reset password' : 'Sign In'}</ProText>
         </Button>
 
         <Button
@@ -139,10 +151,12 @@ const LoginComponent = ({navigation}: any) => {
             setShowForgetModal(preVal => !preVal);
           }}
           style={{alignItems: 'flex-end', marginVertical: 5}}>
-          {showForgetModal ? 'Sign in with password' : 'Forgot password'}
+          <ProText style={{color: $brand03}}>
+            {showForgetModal ? 'Sign in with password' : 'Forgot password'}
+          </ProText>
         </Button>
 
-        <Text style={{textAlign: 'center', marginVertical: 15}}>OR</Text>
+        <ProText style={{textAlign: 'center', marginVertical: 15}}>OR</ProText>
         {/* Social sign in  */}
         <SocialFooter
           navigation={navigation}

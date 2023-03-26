@@ -1,5 +1,5 @@
 import React from 'react';
-import {Input} from 'component/Input';
+import {Input} from 'component/Common/Input';
 
 const FormItemComponent = (props: any) => {
   const {label, key, dispatchState, cb, extraOptions = {}} = props.options;
