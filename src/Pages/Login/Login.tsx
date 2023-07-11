@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useReducer, useState} from 'react';
 import {ScrollView, View} from 'react-native';
-import {Button, Text} from 'react-native-paper';
+import {Avatar, Button, Text} from 'react-native-paper';
 import {AuthContext} from 'Providers/AuthProvider';
 import {showToast, isValidEmail} from 'utils/CommonUtil';
 import {FormItem} from 'component/FormItem';
@@ -116,6 +116,13 @@ const LoginComponent = ({navigation}: any) => {
     <ScrollView>
       <View style={{margin: 20}}>
         <View style={{marginBottom: 20}}>
+          <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+            <Avatar.Image source={require('assets/logo.png')} />
+          </View>
           <ProText
             style={{
               textAlign: 'center',

@@ -3,7 +3,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 const Stack = createStackNavigator();
 import { Login } from '../Pages/Login/Login';
-import { CounterComponent } from 'component/Counter/Counter';
+// import { CounterComponent } from 'component/Counter/Counter';
 import { Register } from 'Pages/Register/Register';
 
 
