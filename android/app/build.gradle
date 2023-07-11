@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.elite.line"
+    namespace "com.elite.mysocialthing"
     defaultConfig {
-        applicationId "com.elite.line"
+        applicationId "com.elite.mysocialthing"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
