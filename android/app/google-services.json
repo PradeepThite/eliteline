@@ -7,28 +7,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:638342952659:android:bc2006da4ec6b374838626",
+        "mobilesdk_app_id": "1:638342952659:android:c82f2495da5f9467838626",
         "android_client_info": {
-          "package_name": "com.elite.line"
+          "package_name": "com.elite.mysocialthing"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "638342952659-fmh7kfjim1m9hsvg8phvk5ufgahd0van.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.elite.line",
-            "certificate_hash": "fbf3eeec4d1f2edf78b5a0e12abe781f761a3c1a"
-          }
-        },
-        {
-          "client_id": "638342952659-vdf3rvtaeqb05ctn55roqj5ckulbp1g4.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.elite.line",
-            "certificate_hash": "b42871814bb8d7f4b021a327b438fd1878a1bef7"
-          }
-        },
         {
           "client_id": "638342952659-ft8jap4emtop4i94khu8dbv9l7j55au9.apps.googleusercontent.com",
           "client_type": 3
