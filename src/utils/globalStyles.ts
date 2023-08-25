@@ -1,4 +1,5 @@
 export const $font_heading = 19;
+export const $heading_font_size = 22;
 
 export const Black01 = '#2A3638';
 export const Green01 = 'rgba(104, 211, 145,1)';

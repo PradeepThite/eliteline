@@ -1,6 +1,6 @@
 import React from 'react';
 import {Appbar, Divider, Text} from 'react-native-paper';
-import {$dark02, $dark06, $white} from 'utils/colors';
+import {$dark02, $dark06, $white} from 'utils/globalStyles';
 
 const ProHeader = ({title, onPress, backgroundColor = '', endAction}: any) => {
   return (

@@ -7,11 +7,13 @@ import {FormItem} from 'component/FormItem';
 import {SocialFooter} from 'component/Common/SocialFooter';
 import {ProText} from 'component/Common/Text/ProText';
 import {$brand03, $font_heading} from 'utils/globalStyles';
+import {LoaderContext} from 'Providers/LoaderProvider';
+import * as $pallet_color from 'utils/globalStyles';
 
 const initialState = {
   isValid: false,
-  email: '',
-  password: '',
+  email: 'test@gmail.com',
+  password: '12345678',
   forgetemail: '',
 };
 
@@ -51,7 +53,13 @@ const reducer = (state: any, action: Ilogin) => {
 };
 
 const LoginForm = [
-  {label: <ProText>Email</ProText>, key: 'email'},
+  {
+    label: <ProText>Email</ProText>,
+    key: 'email',
+    extraOptions: {
+      style: {},
+    },
+  },
   {
     label: <ProText>Password</ProText>,
     key: 'password',
@@ -72,9 +80,10 @@ const LoginComponent = ({navigation}: any) => {
   const [validStatement, setValidStatement] = useState<string>('');
   const {login, forgetPassword} = useContext(AuthContext);
   const [showForgetModal, setShowForgetModal] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [formItems, setFormItems] = useState<any>(LoginForm);
+
+  const {setLoader: setIsLoading, isLoading} = useContext(LoaderContext);
 
   const forgetPasswordAPI = async () => {
     setIsLoading(true);
@@ -89,10 +98,10 @@ const LoginComponent = ({navigation}: any) => {
     login(state.email, state.password, loginCB);
   };
 
-  const loginCB = ({status, message}: any) => {
+  const loginCB = (logincbResponse: any) => {
     setIsLoading(false);
-
-    if (status === 'success') {
+    const {status, message, uid, providerId} = logincbResponse;
+    if (status === 'success' || providerId === 'firebase') {
       showToast('Success');
     } else {
       showToast(message || 'Error');

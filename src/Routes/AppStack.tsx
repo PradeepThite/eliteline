@@ -7,8 +7,12 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Home} from 'Pages/Home/Home';
-import {$dark01, $white} from 'utils/colors';
+import {$dark01, $white} from 'utils/globalStyles';
 import {Profile} from 'Pages/Profile/Profile';
+import {View} from 'react-native';
+import {Text} from 'react-native-paper';
+import {FirebaseFeature} from 'Pages/Firebase/Firebase';
+import {InAppBrowserFeature} from 'Pages/InAppBrowser/InAppBrowser';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -85,7 +89,6 @@ const AppStack = () => {
             <AntDesign name="search1" size={24} color={color} />
           ),
           ...MyTransition,
-
         }}
       />
       <Tab.Screen
@@ -133,13 +136,21 @@ const AppStack = () => {
         component={TabNavigation}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
-        name="PostPreview"
+      <Stack.Screen
+        name="Firebase"
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
-        component={PostPreview}
+        component={FirebaseFeature}
       />
+      <Stack.Screen
+        name="InAppBrowser"
+        options={{
+          headerShown: true,
+        }}
+        component={InAppBrowserFeature}
+      />
+      {/*
       <Stack.Screen
         name="UserPreview"
         options={{

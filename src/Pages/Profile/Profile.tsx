@@ -10,10 +10,9 @@ import {useFocusEffect} from '@react-navigation/native';
 
 import {Text, TextInput} from 'react-native-paper';
 import {AuthContext} from 'Providers/AuthProvider';
-import {$dark02, $white} from 'utils/colors';
+import {$dark02, $white} from 'utils/globalStyles';
 import ProHeader from 'component/ProHeader/ProHeader';
 import ProAvatar from 'component/ProAvatar/ProAvatar';
-import {connect} from 'react-redux';
 import {LoaderContext} from 'Providers/LoaderProvider';
 
 const ProfileComponent = ({navigation}: any) => {
@@ -36,9 +35,9 @@ const ProfileComponent = ({navigation}: any) => {
   };
 
   console.log('---------- Profile rendered =---------------');
-  // console.log(user)
   useFocusEffect(
     React.useCallback(() => {
+      console.log(user);
       getPost();
       getUserDetails();
     }, []),
@@ -145,8 +144,13 @@ const ProfileComponent = ({navigation}: any) => {
     // }
   };
 
+  interface userDetails {
+    photoURL: string;
+    displayName: string;
+  }
+
   const renderContactHeader = () => {
-    let {photoURL, displayName} = userDetails;
+    let {photoURL, displayName}: userDetails = userDetails;
     console.log('--------- Profile header -------rendered');
     return (
       <View style={styles.headerContainer}>
@@ -404,25 +408,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state: any) => {
-  return {
-    user: state.user,
-    isLogIn: state.isLogIn,
-  };
-};
-
-const mapDispatchToPRops = (dispatch: any) => {
-  return {
-    //   login: () => dispatch(loginUser),
-    //   showLoading: p => dispatch(showLoader(p)),
-    //   hideLoading: p => dispatch(hideLoader(p)),
-  };
-};
-
-export const Profile = connect(
-  mapStateToProps,
-  mapDispatchToPRops,
-)(ProfileComponent);
+export const Profile = ProfileComponent;
 
 // <View style={styles.post_container}>
 // <View style={styles.user_social_status_container}>

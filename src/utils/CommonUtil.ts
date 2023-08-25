@@ -11,17 +11,13 @@ export const showToast = (
   duration = 'SHORT',
   position = 'TOP',
 ) => {
-  ToastAndroid.showWithGravity(
-    message,
-    ToastAndroid.SHORT,
-    ToastAndroid.TOP,
-  );
+  ToastAndroid.showWithGravity(message, ToastAndroid.SHORT, ToastAndroid.TOP);
 };
 
 export const showAlert = (
   title: string,
   message: any,
-  buttons = [],
+  buttons: any,
   options = {},
 ) => {
   Alert.alert(title, message, buttons, options);
@@ -85,4 +81,11 @@ export const getFormattedErrorMessageOfFirebase = (
 export const isValidEmail = (email: string) => {
   let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
   return reg.test(email);
+};
+
+export const isValidValue = (value: any) => {
+  if (value === null || value === '' || value === undefined) {
+    return false;
+  }
+  return true;
 };

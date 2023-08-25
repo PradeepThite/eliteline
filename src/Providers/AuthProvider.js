@@ -1,22 +1,28 @@
-import React, {createContext, useState} from 'react';
-
-import {showToast} from '../utils/CommonUtil';
-import {setToStorage} from '../utils/Storage';
+import React, { createContext, useState } from 'react';
+import { GoogleSignin } from '@react-native-community/google-signin';
 import auth from '@react-native-firebase/auth';
-import {jwtInterceptor} from '../Services/Interceptor';
-import {GoogleSignin} from '@react-native-community/google-signin';
-import {loginUser, updateNotificationToken} from '../Services/userService';
+import { showToast } from 'utils/CommonUtil';
+import { setToStorage } from 'utils/Storage';
+import { jwtInterceptor } from 'Services/Interceptor';
+import { loginUser, updateNotificationToken } from 'Services/userService';
+
 
 export const AuthContext = createContext();
+const isFirebaseOnly = true;
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   console.log('----------- AUTH Provider rendered ----------------');
   const [user, setUser] = useState(null);
 
   const validateUserOnServerAndLogIn = async (userDetails, loginCB) => {
-    const {email, uid, emailVerified, photoURL, displayName} = userDetails;
+    if (isFirebaseOnly) {
+      loginCB && loginCB(userDetails);
+      setUser(userDetails);
+      return false;
+    }
+    const { email, uid, emailVerified, photoURL, displayName } = userDetails;
     var start = Date.now();
-    const response = {status: 'success'};
+    const response = { status: 'success' };
     const loginResponse = await loginUser({
       email,
       uid,
@@ -26,8 +32,8 @@ export const AuthProvider = ({children}) => {
     });
     var end = Date.now();
     console.log(`Get user from server time ${end - start} ms`);
-    
-    console.log('--- Login response',loginResponse);
+
+    console.log('--- Login response', loginResponse);
     if (loginResponse.status) {
       response.data = loginResponse.data;
       await setToStorage('user', loginResponse.data);
@@ -48,7 +54,7 @@ export const AuthProvider = ({children}) => {
         user,
         setUser,
         login: async (email, password, cb) => {
-          const response = {status: 'true'};
+          const response = { status: 'true' };
           try {
             const firebaseAuthResponse =
               await auth().signInWithEmailAndPassword(email.trim(), password);
@@ -65,12 +71,12 @@ export const AuthProvider = ({children}) => {
           }
         },
 
-        googleLogin: async ({loginCB}) => {
+        googleLogin: async ({ loginCB }) => {
           try {
             console.log('----------- googleLogin -----------');
             console.log(await GoogleSignin.hasPlayServices());
             // Get the users ID token
-            const {idToken} = await GoogleSignin.signIn();
+            const { idToken } = await GoogleSignin.signIn();
             console.log('idToken');
             console.log(idToken);
 
@@ -85,7 +91,7 @@ export const AuthProvider = ({children}) => {
               googleCredential,
             );
             // console.log(response);
-            const userInfo = auth().currentUser; 
+            const userInfo = auth().currentUser;
             console.log(loginCB);
             validateUserOnServerAndLogIn(userInfo, loginCB);
             // setToStorage('user',auth().currentUser);
@@ -113,13 +119,13 @@ export const AuthProvider = ({children}) => {
             //     console.log('Something went wrong with sign up: ', error);
             // });
           } catch (error) {
-            loginCB && loginCB({status: 'failed'});
+            loginCB && loginCB({ status: 'failed' });
             console.log('Error occured');
             console.log(error);
           }
         },
         register: async (email, password) => {
-          const response = {status: true};
+          const response = { status: true };
           try {
             const userResponse = await auth().createUserWithEmailAndPassword(
               email,

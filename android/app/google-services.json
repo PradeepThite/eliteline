@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "638342952659",
+    "firebase_url": "https://elite-line-default-rtdb.firebaseio.com",
     "project_id": "elite-line",
     "storage_bucket": "elite-line.appspot.com"
   },
@@ -13,6 +14,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "638342952659-12mrbim7u28vgtktjrn7l0sokp5ips17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elite.mysocialthing",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "638342952659-1r552jsm9ndofaltg353vglfaftl8p37.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elite.mysocialthing",
+            "certificate_hash": "b42871814bb8d7f4b021a327b438fd1878a1bef7"
+          }
+        },
         {
           "client_id": "638342952659-ft8jap4emtop4i94khu8dbv9l7j55au9.apps.googleusercontent.com",
           "client_type": 3

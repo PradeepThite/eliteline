@@ -1,11 +1,12 @@
 import React, {useContext, useReducer, useState} from 'react';
 import {ScrollView, View} from 'react-native';
-import {Button} from 'react-native-paper';
+import {Avatar, Button} from 'react-native-paper';
 import {AuthContext} from 'Providers/AuthProvider';
 import {isValidEmail, showToast} from 'utils/CommonUtil';
 import {FormItem} from 'component/FormItem';
 import {SocialFooter} from 'component/Common/SocialFooter';
 import {ProText} from 'component/Common/Text/ProText';
+import {LoaderContext} from 'Providers/LoaderProvider';
 
 const initialState = {
   isValid: false,
@@ -56,15 +57,16 @@ const RegisterComponent = ({navigation}: any) => {
   const [state, dispatchState] = useReducer(reducer, initialState);
   const [isValid, setIsValid] = useState<boolean>(true);
   const {register} = useContext(AuthContext);
+  const {setLoader: setIsLoading, isLoading} = useContext(LoaderContext);
 
   const registerAPI = async () => {
     if (state.password !== state.confirmPassword) {
       return showToast('Please enter a correct password and confirm password');
     }
-    // showLoading({title: 'Creating user...'});
+    setIsLoading(true);
     let response = await register(state.email, state.password);
     console.log(response);
-    // hideLoading();
+    setIsLoading(false);
     if (response.status) {
       return showToast('Register success..');
     }
@@ -75,6 +77,13 @@ const RegisterComponent = ({navigation}: any) => {
     <ScrollView>
       <View style={{margin: 20}}>
         <View style={{marginBottom: 20}}>
+          <View
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}>
+            <Avatar.Image source={require('assets/logo.png')} />
+          </View>
           <ProText style={{textAlign: 'center', marginVertical: 15}}>
             Register
           </ProText>

@@ -1,25 +1,29 @@
 import React, {useState} from 'react';
 import {Avatar} from 'react-native-paper';
+import {isValidValue} from 'utils/CommonUtil';
 
-const ProAvatar = (props: any) => {
-  const [uri, setUri] = useState<any>({uri: props.uri});
+interface IProAvatar {
+  uri: string;
+  size?: number;
+  style?: object;
+}
+
+const ProAvatar = (props: IProAvatar) => {
+  const [uri, setUri] = useState<string>(props.uri);
   return (
     <>
-      {uri ? (
+      {isValidValue(uri) ? (
         <Avatar.Image
           size={props.size}
           style={[props.style]}
-          source={{uri: props.uri}}
+          source={{uri: uri}}
           onError={e => {
             console.log('Proavatar image error');
-            setUri(false);
+            setUri('');
           }}
         />
       ) : (
-        <Avatar.Image
-          size={props.size}
-          source={require('assets/Default-avatar.jpg')}
-        />
+        <Avatar.Image source={require('assets/Default-avatar.jpg')} />
       )}
     </>
   );
