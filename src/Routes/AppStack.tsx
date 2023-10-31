@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   createStackNavigator,
   HeaderStyleInterpolators,
@@ -7,12 +7,15 @@ import {
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Home} from 'Pages/Home/Home';
-import {$dark01, $white} from 'utils/globalStyles';
+import {$white} from 'utils/globalStyles';
 import {Profile} from 'Pages/Profile/Profile';
-import {View} from 'react-native';
-import {Text} from 'react-native-paper';
 import {FirebaseFeature} from 'Pages/Firebase/Firebase';
 import {InAppBrowserFeature} from 'Pages/InAppBrowser/InAppBrowser';
+import {MapFeature} from 'Pages/Map/Map';
+import {CameraFeature} from 'Pages/Camera/Camera';
+import {StyleSheet, View} from 'react-native';
+import OLXSideBar from 'component/SideBar/OLXSideBar';
+import {ProductChat} from 'Pages/Chatting/ProductChat';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -65,7 +68,20 @@ const AppStack = () => {
 
   const TabNavigation = () => (
     <Tab.Navigator
-      screenOptions={{tabBarStyle: {backgroundColor: $white}}}
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+        tabBarShowLabel: false,
+        headerShown: false,
+        tabBarStyle: {
+          borderWidth: 0,
+          borderRadius: 20,
+          backgroundColor: '#3C3C3C',
+          margin: 5,
+          padding: 5,
+          paddingBottom: 5,
+          height: 60,
+        },
+      }}
       initialRouteName="Home">
       <Tab.Screen
         name="Home"
@@ -73,8 +89,20 @@ const AppStack = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
-            <AntDesign name="home" size={24} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                ...styles.icon_container,
+                ...{
+                  backgroundColor: focused ? '#087E8B' : '',
+                },
+              }}>
+              <AntDesign
+                name="home"
+                size={24}
+                color={focused ? 'white' : color}
+              />
+            </View>
           ),
           ...MyTransition,
         }}
@@ -85,8 +113,20 @@ const AppStack = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'Search',
-          tabBarIcon: ({color}) => (
-            <AntDesign name="search1" size={24} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                ...styles.icon_container,
+                ...{
+                  backgroundColor: focused ? '#087E8B' : '',
+                },
+              }}>
+              <AntDesign
+                name="search1"
+                size={24}
+                color={focused ? 'white' : color}
+              />
+            </View>
           ),
           ...MyTransition,
         }}
@@ -97,8 +137,15 @@ const AppStack = () => {
         options={{
           headerShown: false,
           tabBarLabel: '',
-          tabBarIcon: ({color}) => (
-            <AntDesign name="plus" size={24} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <View style={{backgroundColor: 'white', borderRadius: 25}}>
+              <AntDesign
+                name="camera"
+                size={30}
+                style={{padding: 10}}
+                color={focused ? '#087E8B' : color}
+              />
+            </View>
           ),
         }}
       />
@@ -109,20 +156,44 @@ const AppStack = () => {
         options={{
           headerShown: false,
           tabBarLabel: 'Notification',
-          tabBarIcon: ({color}) => (
-            <AntDesign name="bells" size={24} color={color} />
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                ...styles.icon_container,
+                ...{
+                  backgroundColor: focused ? '#087E8B' : '',
+                },
+              }}>
+              <AntDesign
+                name="bells"
+                size={24}
+                color={focused ? 'white' : color}
+              />
+            </View>
           ),
         }}
       />
 
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="Chat"
+        component={ProductChat}
         options={{
           headerShown: false,
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({color}) => (
-            <AntDesign name="user" size={24} color={color} />
+          tabBarLabel: 'Chat',
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                ...styles.icon_container,
+                ...{
+                  backgroundColor: focused ? '#087E8B' : '',
+                },
+              }}>
+              <AntDesign
+                name="message1"
+                size={24}
+                color={focused ? 'white' : color}
+              />
+            </View>
           ),
         }}
       />
@@ -134,14 +205,24 @@ const AppStack = () => {
       <Stack.Screen
         name="AppStack"
         component={TabNavigation}
-        options={{headerShown: false}}
+        options={{
+          cardStyle: {backgroundColor: 'white'},
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="Firebase"
         options={{
           headerShown: true,
         }}
-        component={FirebaseFeature}
+        component={Profile}
+      />
+      <Stack.Screen
+        name="Profile"
+        options={{
+          headerShown: false,
+        }}
+        component={Profile}
       />
       <Stack.Screen
         name="InAppBrowser"
@@ -150,23 +231,37 @@ const AppStack = () => {
         }}
         component={InAppBrowserFeature}
       />
-      {/*
       <Stack.Screen
-        name="UserPreview"
+        name="Map"
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
-        component={UserProfile}
+        component={MapFeature}
       />
       <Stack.Screen
-        name="PostList"
+        name="Camera"
+        options={{
+          headerShown: true,
+        }}
+        component={CameraFeature}
+      />
+      <Stack.Screen
+        name="SideBar"
         options={{
           headerShown: false,
+          cardStyle: {},
         }}
-        component={PostList}
-      /> */}
+        component={OLXSideBar}
+      />
     </Stack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  icon_container: {
+    padding: 8,
+    borderRadius: 20,
+  },
+});
 
 export default AppStack;

@@ -78,3 +78,7 @@ export const $pallet_1 = '#FF74B1';
 export const $pallet_2 = '#FFA1CF';
 export const $pallet_3 = '#FFD6EC';
 export const $pallet_4 = '#A7FFE4';
+
+// OLX colors
+// Text color
+export const OLX_TextColor = '#3C3C3C';

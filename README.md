@@ -100,3 +100,6 @@
 
 
   
+
+  ## ICON library 
+    1. https://oblador.github.io/react-native-vector-icons/

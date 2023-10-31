@@ -6,14 +6,276 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import {useFocusEffect} from '@react-navigation/native';
-
-import {Text, TextInput} from 'react-native-paper';
+import {Button, Text, TextInput} from 'react-native-paper';
+import {TextInput as Input} from 'react-native';
 import {AuthContext} from 'Providers/AuthProvider';
 import {$dark02, $white} from 'utils/globalStyles';
 import ProHeader from 'component/ProHeader/ProHeader';
 import ProAvatar from 'component/ProAvatar/ProAvatar';
 import {LoaderContext} from 'Providers/LoaderProvider';
+import CommonHeader from 'component/Header/CommonHeader';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+interface IInput {
+  label: string;
+  placeholder: string;
+  icon: string;
+  type?: string;
+  keyboard?: any;
+}
+interface IInputItem {
+  options: IInput;
+}
+const InputItem = (props: IInputItem) => {
+  const {label, placeholder, type, keyboard} = props.options;
+  return (
+    <View
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        paddingHorizontal: 10,
+        borderRadius: 10,
+      }}>
+      <Text style={{fontWeight: '900', color: '#3C3C3C', paddingVertical: 5}}>
+        {label}
+      </Text>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}>
+        <Input
+          placeholder={placeholder}
+          keyboardType={keyboard ? keyboard : 'default'}
+          multiline={type === 'area'}
+          style={{
+            width: '85%',
+            borderBottomColor: 'red',
+            backgroundColor: '#EAEAEA',
+          }}
+        />
+        <View
+          style={{
+            backgroundColor: '#EAEAEA',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+
+            paddingRight: 20,
+          }}>
+          <AntDesign name="edit" size={24} />
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const InputItemsList = [
+  {
+    options: {
+      label: 'Name',
+      placeholder: 'Search for Book, Guitar and more...',
+      icon: 'edit',
+    },
+  },
+  {
+    options: {
+      label: 'Email',
+      placeholder: 'example@example.com',
+      icon: 'edit',
+    },
+  },
+  {
+    options: {
+      label: 'Phone',
+      placeholder: '+91 1234567689',
+      icon: 'edit',
+      keyboard: 'numeric',
+    },
+  },
+  {
+    options: {
+      label: 'Address',
+      placeholder: 'Enter your full address',
+      icon: 'edit',
+      type: 'area',
+    },
+  },
+];
+export const Profile = ({navigation}: any) => {
+  return (
+    <ScrollView style={{flex: 1, paddingHorizontal: 10}}>
+      <View
+        style={{
+          flex: 1,
+        }}>
+        <CommonHeader
+          closeIcon={'close'}
+          navigation={navigation}
+          redirectPath="SideBar"
+        />
+        <Text style={{color: '#3C3C3C', fontWeight: '900', marginVertical: 20}}>
+          My Account
+        </Text>
+        {InputItemsList.map((iI: IInputItem) => {
+          return <InputItem key={iI.options.label} options={iI.options} />;
+        })}
+      </View>
+      <View
+        style={{
+          height: 200,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          paddingBottom: 10,
+        }}>
+        <Button
+          style={{width: '50%'}}
+          textColor="#3C3C3C"
+          mode="outlined"
+          icon={'application-settings-outline'}
+          onPress={() => false}>
+          Settings
+        </Button>
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  profile_page_container: {flex: 1, backgroundColor: $white},
+  user_profile_container: {
+    flex: 4,
+  },
+  post_container: {
+    marginTop: 5,
+    borderTopColor: '#d9d7d2',
+    // borderTopWidth: 1,
+    flex: 8,
+  },
+  post_list_container: {
+    flex: 1,
+    // height: 500
+  },
+  action_container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  action_buttons: {
+    flex: 1,
+    height: 50,
+    backgroundColor: $dark02,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logout_button: {
+    flex: 1,
+  },
+  save_button: {
+    flex: 1,
+  },
+
+  action_button_text: {
+    textAlign: 'center',
+    fontSize: 25,
+  },
+  container: {
+    flex: 1,
+  },
+  cardContainer: {
+    flex: 1,
+    paddingRight: 60,
+    paddingLeft: 60,
+  },
+  user_social_status_container: {
+    flexDirection: 'row',
+    backgroundColor: $dark02,
+    borderBottomColor: '#C8C8C8',
+    padding: 5,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  my_post_title: {
+    backgroundColor: $dark02,
+    padding: 10,
+    margin: 10,
+    marginTop: 20,
+  },
+  headerContainer: {
+    alignItems: 'center',
+
+    marginTop: 16,
+  },
+  indicatorTab: {
+    backgroundColor: 'transparent',
+  },
+  scroll: {},
+  sceneContainer: {
+    marginTop: 10,
+  },
+  socialIcon: {
+    marginLeft: 14,
+    marginRight: 14,
+  },
+  socialRow: {
+    flexDirection: 'row',
+  },
+  tabBar: {
+    backgroundColor: '#EEE',
+  },
+  tabContainer: {
+    flex: 1,
+    // marginBottom: 12,
+  },
+  tabLabelNumber: {
+    color: 'gray',
+    fontSize: 12.5,
+    textAlign: 'center',
+  },
+  tabLabelText: {
+    color: 'black',
+    fontSize: 22.5,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  userBioRow: {
+    marginLeft: 40,
+    marginRight: 40,
+    marginBottom: 15,
+  },
+  userBioText: {
+    color: $dark02,
+    fontSize: 13.5,
+    textAlign: 'center',
+  },
+  userImage: {
+    borderRadius: 60,
+    height: 90,
+    marginBottom: 10,
+    width: 90,
+  },
+  userNameRow: {
+    marginBottom: 10,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  userNameText: {
+    color: $dark02,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  userRow: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    borderBottomColor: 'grey',
+  },
+});
 
 const ProfileComponent = ({navigation}: any) => {
   let {logout, user, setUser} = useContext(AuthContext);
@@ -35,13 +297,13 @@ const ProfileComponent = ({navigation}: any) => {
   };
 
   console.log('---------- Profile rendered =---------------');
-  useFocusEffect(
-    React.useCallback(() => {
-      console.log(user);
-      getPost();
-      getUserDetails();
-    }, []),
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     console.log(user);
+  //     getPost();
+  //     getUserDetails();
+  //   }, []),
+  // );
 
   const getUserDetails = async () => {
     // const response = await getUserDetailsById(user.id);
@@ -274,141 +536,6 @@ const ProfileComponent = ({navigation}: any) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  profile_page_container: {flex: 1, backgroundColor: $white},
-  user_profile_container: {
-    flex: 4,
-  },
-  post_container: {
-    marginTop: 5,
-    borderTopColor: '#d9d7d2',
-    // borderTopWidth: 1,
-    flex: 8,
-  },
-  post_list_container: {
-    flex: 1,
-    // height: 500
-  },
-  action_container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  action_buttons: {
-    flex: 1,
-    height: 50,
-    backgroundColor: $dark02,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logout_button: {
-    flex: 1,
-  },
-  save_button: {
-    flex: 1,
-  },
-
-  action_button_text: {
-    textAlign: 'center',
-    fontSize: 25,
-  },
-  container: {
-    flex: 1,
-  },
-  cardContainer: {
-    flex: 1,
-    paddingRight: 60,
-    paddingLeft: 60,
-  },
-  user_social_status_container: {
-    flexDirection: 'row',
-    backgroundColor: $dark02,
-    borderBottomColor: '#C8C8C8',
-    padding: 5,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  my_post_title: {
-    backgroundColor: $dark02,
-    padding: 10,
-    margin: 10,
-    marginTop: 20,
-  },
-  headerContainer: {
-    alignItems: 'center',
-
-    marginTop: 16,
-  },
-  indicatorTab: {
-    backgroundColor: 'transparent',
-  },
-  scroll: {},
-  sceneContainer: {
-    marginTop: 10,
-  },
-  socialIcon: {
-    marginLeft: 14,
-    marginRight: 14,
-  },
-  socialRow: {
-    flexDirection: 'row',
-  },
-  tabBar: {
-    backgroundColor: '#EEE',
-  },
-  tabContainer: {
-    flex: 1,
-    // marginBottom: 12,
-  },
-  tabLabelNumber: {
-    color: 'gray',
-    fontSize: 12.5,
-    textAlign: 'center',
-  },
-  tabLabelText: {
-    color: 'black',
-    fontSize: 22.5,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
-  userBioRow: {
-    marginLeft: 40,
-    marginRight: 40,
-    marginBottom: 15,
-  },
-  userBioText: {
-    color: $dark02,
-    fontSize: 13.5,
-    textAlign: 'center',
-  },
-  userImage: {
-    borderRadius: 60,
-    height: 90,
-    marginBottom: 10,
-    width: 90,
-  },
-  userNameRow: {
-    marginBottom: 10,
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  userNameText: {
-    color: $dark02,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  userRow: {
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    borderBottomColor: 'grey',
-  },
-});
-
-export const Profile = ProfileComponent;
 
 // <View style={styles.post_container}>
 // <View style={styles.user_social_status_container}>

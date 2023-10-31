@@ -2,7 +2,13 @@ import React from 'react';
 import {Appbar, Divider, Text} from 'react-native-paper';
 import {$dark02, $dark06, $white} from 'utils/globalStyles';
 
-const ProHeader = ({title, onPress, backgroundColor = '', endAction}: any) => {
+const ProHeader = ({
+  showDivider = true,
+  title,
+  onPress,
+  backgroundColor = '',
+  endAction,
+}: any) => {
   return (
     <>
       <Appbar.Header style={{backgroundColor: backgroundColor || 'white'}}>
@@ -18,7 +24,7 @@ const ProHeader = ({title, onPress, backgroundColor = '', endAction}: any) => {
         )}
         {endAction && <Appbar.Action {...endAction} />}
       </Appbar.Header>
-      <Divider />
+      {showDivider && <Divider />}
     </>
   );
 };
