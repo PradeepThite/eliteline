@@ -6,13 +6,12 @@
     "noEmit": true,
     "moduleResolution": "node",
     "paths": {
-      "src/*": ["./*"],
+      "src/*": ["./*"]
     },
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "node_modules",
-  ],
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "exclude": ["node_modules"],
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "include": ["src/custom.d.ts", "src/"]
 }
